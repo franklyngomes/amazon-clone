@@ -1,5 +1,5 @@
 import React from "react";
-import Categories from "../categories/Categories";
+import Categories from "../categories/page";
 import banner1 from '../../../assets/banner1.jpg'
 
 const Home = () => {
