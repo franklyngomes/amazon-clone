@@ -1,9 +1,11 @@
-import amazonLogo from "../../public/assets/amazon_logo.png";
+"use client"
+import React from "react";
 import { IoSearchSharp } from "react-icons/io5";
 import { BiCart } from "react-icons/bi";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { FaUserAlt } from "react-icons/fa";
 import Image from "next/image";
+import Link from "next/link";
 
 const Header = () => {
   const categories = [
@@ -17,11 +19,15 @@ const Header = () => {
     "Home",
     "New Releases",
   ];
+  const [showModal, setShowModal] = React.useState(false);
+  const closeModal = () => {
+    setShowModal(false)
+  }
   return (
-    <>
+    <div className="relative">
       <div className="header-container hidden sm:block">
         <div className="bg-[#121921] flex justify-between items-center px-5 py-3">
-          <Image src={amazonLogo} alt="Logo" className="logo" width={100} />
+          <Link href="/"><Image src={"/assets/amazon_logo.png"} alt="Logo" className="logo" height={47} width={130} /></Link>
           <div className="flex justify-center align-middle w-full px-10">
             <input
               type="text"
@@ -34,11 +40,11 @@ const Header = () => {
               <IoSearchSharp />
             </span>
           </div>
-          <nav className="w-full sm:w-xl ">
+          <nav className="w-xl ">
             <ul className="flex justify-between items-center">
-              <li className="text-white text-left cursor-pointer hover:underline">
-                <p className="text-[12px]">Hello, Sign in</p>
-                <h6 className="font-bold text-[14px]">Account & Lists</h6>
+              <li className="text-white text-left cursor-pointer hover:underline" onClick={() => setShowModal(!showModal)}>
+                  <p className="text-[12px]">Hello, Sign in</p>
+                  <h6 className="font-bold text-[14px]">Account & Lists</h6>
               </li>
               <li className="text-white text-left cursor-pointer hover:underline">
                 <p className="text-[12px]">Returns</p>
@@ -72,12 +78,82 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <div className={`signin-modal hidden ${showModal && "sm:block"}  z-99 max-w-[500px] w-[100%] flex-1 p-4 bg-white rounded-sm absolute top-16 right-20 shadow-md`} onPointerLeave={closeModal}>
+        <div className="btn text-center py-5">
+          <Link href='/auth/signin'><button onClick={closeModal} className="bg-[#ffd814] px-2.5 py-1.5 rounded-sm w-[50%] cursor-pointer hover:underline">Sign in</button></Link>
+        </div>
+        <hr className="text-[#a9a9a9]" />
+        <div className="row flex justify-between gap-5 mt-4">
+          <div className="col text-start">
+            <h4 className="text-[16px] font-bold">Your List</h4>
+            <ul className="text-[13px] text-[#3e3f40] ">
+              <Link href="">
+                <li className="hover:underline mt-1.5">Your Lists</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Create a Wish List</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Wish from Any Website</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Baby Wishlist</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Discover Your Style</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Explore Showroom</li>
+              </Link>
+            </ul>
+          </div>
+          <div className="col text-start">
+            <h4 className="text-[16px] font-bold">Your Account</h4>
+            <ul className="text-[13px] text-[#3e3f40]">
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Your Account</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Your Orders</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Your Wish List</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Your Recommendations</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Your Prime Membership</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Your Prime Video</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Your Subscribe & Save Items</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Memberships & Subscriptions</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Your Seller Account</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Manage Your Content and Devices</li>
+              </Link>
+              <Link href="/">
+                <li className="hover:underline mt-1.5">Register for a free Business Account</li>
+              </Link>
+            </ul>
+
+          </div>
+        </div>
+      </div>
       {/* Mobile Header */}
       <div className="mobile-header-container bg-[#232f3f] block sm:hidden px-4 py-3">
         <div className="top-section flex justify-between items-center">
           <div className="menu text-white text-2xl flex gap-5">
             <RxHamburgerMenu />
-            <Image src={amazonLogo} alt="Logo" className="logo" width={100} />
+            <Link href="/"><Image src={"/assets/amazon_logo.png"} alt="Logo" className="logo" height={36} width={100} /></Link>
           </div>
           <div className="user-cart flex gap-3">
             <div className="user flex font-bold text-white gap-2">
@@ -116,7 +192,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
