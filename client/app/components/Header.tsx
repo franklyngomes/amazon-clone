@@ -6,8 +6,17 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { FaUserAlt } from "react-icons/fa";
 import Image from "next/image";
 import Link from "next/link";
+import { Cookies } from "react-cookie";
+import { jwtDecode } from "jwt-decode";
+import { useStore } from "@/store/store";
 
 const Header = () => {
+  const cookies = new Cookies()
+  const token  = useStore((state) => state.token)
+  const user  = useStore((state) => state.user)
+  const updateToken = useStore((state) => state.updateToken)
+  const updateUser = useStore((state) => state.updateUser)
+  console.log(token)
   const categories = [
     "Deals",
     "Amazon Basics",
@@ -23,6 +32,25 @@ const Header = () => {
   const closeModal = () => {
     setShowModal(false)
   }
+  const Logout = () => {
+    const token = cookies.get("token")
+    if (token) {
+      cookies.remove("token")
+      updateToken("");
+      updateUser({})
+    }
+  }
+  React.useEffect(() => {
+   const token = cookies.get("token")
+   if(token){
+    updateToken(token)
+    const decoded = jwtDecode(token)
+    updateUser(decoded)
+   }
+  }, [])
+  console.log(token)
+  console.log(user)
+
   return (
     <div className="relative">
       <div className="header-container hidden sm:block">
@@ -43,8 +71,8 @@ const Header = () => {
           <nav className="w-xl ">
             <ul className="flex justify-between items-center">
               <li className="text-white text-left cursor-pointer hover:underline" onClick={() => setShowModal(!showModal)}>
-                  <p className="text-[12px]">Hello, Sign in</p>
-                  <h6 className="font-bold text-[14px]">Account & Lists</h6>
+                <p className="text-[12px]">Hello, {user.name ? `${user.name}` : "Sign in"}</p>
+                <h6 className="font-bold text-[14px]">Account & Lists</h6>
               </li>
               <li className="text-white text-left cursor-pointer hover:underline">
                 <p className="text-[12px]">Returns</p>
@@ -79,10 +107,15 @@ const Header = () => {
         </div>
       </div>
       <div className={`signin-modal hidden ${showModal && "sm:block"}  z-99 max-w-[500px] w-[100%] flex-1 p-4 bg-white rounded-sm absolute top-16 right-20 shadow-md`} onPointerLeave={closeModal}>
-        <div className="btn text-center py-5">
-          <Link href='/auth/signin'><button onClick={closeModal} className="bg-[#ffd814] px-2.5 py-1.5 rounded-sm w-[50%] cursor-pointer hover:underline">Sign in</button></Link>
-        </div>
-        <hr className="text-[#a9a9a9]" />
+        {
+          !token &&
+            <>
+              <div className="btn text-center py-5">
+                <Link href='/auth/signin'><button onClick={closeModal} className="bg-[#ffd814] px-2.5 py-1.5 rounded-sm w-[50%] cursor-pointer hover:underline">Sign in</button></Link>
+              </div>
+              <hr className="text-[#a9a9a9]" />
+            </>
+            }
         <div className="row flex justify-between gap-5 mt-4">
           <div className="col text-start">
             <h4 className="text-[16px] font-bold">Your List</h4>
@@ -110,6 +143,10 @@ const Header = () => {
           <div className="col text-start">
             <h4 className="text-[16px] font-bold">Your Account</h4>
             <ul className="text-[13px] text-[#3e3f40]">
+              {
+                token !== "" &&
+                <li className="hover:underline mt-1.5 cursor-pointer" onClick={Logout}>Signout</li>
+              }
               <Link href="/">
                 <li className="hover:underline mt-1.5">Your Account</li>
               </Link>
