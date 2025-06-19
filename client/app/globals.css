@@ -29,3 +29,6 @@ body {
   color: var(--foreground);
   font-family: "Amazon Ember";
 }
+.colors{
+  /* accent-color: red; */
+}

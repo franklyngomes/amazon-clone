@@ -12,10 +12,10 @@ import { useStore } from "@/store/store";
 
 const Header = () => {
   const cookies = new Cookies()
-  const token  = useStore((state) => state.token)
-  const user  = useStore((state) => state.user)
-  const updateToken = useStore((state) => state.updateToken)
-  const updateUser = useStore((state) => state.updateUser)
+  const token  = useStore((state : any) => state.token)
+  const user  = useStore((state : any) => state.user)
+  const updateToken = useStore((state : any) => state.updateToken)
+  const updateUser = useStore((state : any) => state.updateUser)
   console.log(token)
   const categories = [
     "Deals",
@@ -80,7 +80,7 @@ const Header = () => {
               </li>
               <li className="font-bold text-white flex cursor-pointer">
                 <span className="">
-                  <p className="text-sm/3 text-center">0</p>
+                  <p className="text-sm/3 text-center text-[#e07d1f]">0</p>
                   <BiCart className="text-2xl" />
                 </span>
                 <span className="flex justify-center items-end">

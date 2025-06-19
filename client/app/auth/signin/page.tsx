@@ -7,6 +7,7 @@ import * as yup from "yup"
 import { SignInQuery } from '@/api/query/query'
 import { useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
+import Image from 'next/image'
 
 const schema = yup.object({
   email: yup.string().email().required("Email is required").max(160),
@@ -41,7 +42,8 @@ const Login = () => {
     })
   }
   return (
-    <div className='flex justify-center mt-[5%]'>
+    <div className='flex flex-col items-center justify-center mt-[3%]'>
+        <Image src={"/assets/amazon_logo_light.webp"} alt="Logo" className="logo mb-3" height={47} width={130} />
       <div className="form border border-[#a9a9a9] p-5 rounded-md bg-white pb-[50px] sm:mx-4">
         <h4 className='text-[#0f1111] text-[28px] pb-3'>Sign in to get started
         </h4>
